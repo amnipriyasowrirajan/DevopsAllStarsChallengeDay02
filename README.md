@@ -96,10 +96,21 @@ This project automates the process of sending NBA game score updates directly to
        # Prepare message
        message = "NBA Game Scores:\n"
        for game in games:
+
+### Step 5: Automate with EventBridge
+   Open the EventBridge Console.
+   Create a rule:
+   Name: gd_rule
+   Schedule Type: Cron-based.
+   Cron Expression: 0 9-23/2,0-2 * * ? * (Every two hours from 9 AM to 2 AM).
+   Attach the rule to the gd_notifications Lambda function.
+### Step 6: Test the App
+   Test the Lambda function in the AWS console.
+   Check your email for game score updates.
+   Monitor scheduled notifications via EventBridge.
            message += f"{game['HomeTeam']} vs {game['AwayTeam']} - {game['HomeTeamScore']}:{game['AwayTeamScore']}\n"
 
-       # Publish to SNS
-       sns_client.publish(TopicArn=sns_topic_arn, Message=message)
-
-       return {"statusCode": 200, "body": "Notification sent!"}
+### Publish to SNS
+   sns_client.publish(TopicArn=sns_topic_arn, Message=message)
+   return {"statusCode": 200, "body": "Notification sent!"}
    ```
